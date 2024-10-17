@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common';
-import { UsersModule } from './users/users.module';
-import { TodosModule } from './todos/todos.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { User } from './users/users.entity';
-import { Todo } from './todos/todos.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import typeorm from './config/typeorm';
+import { TodosModule } from './todos/todos.module';
+import { UsersModule } from './users/users.module';
 // import { APP_INTERCEPTOR } from '@nestjs/core';
 // import { APP_GUARD } from '@nestjs/core';
 // import { AuthGuard } from './guards/auth.guard';
@@ -13,11 +12,14 @@ import { Todo } from './todos/todos.entity';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: './.env.development',
+      // envFilePath: './.env.development',
+      load: [typeorm],
     }),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
+      useFactory: (configService: ConfigService) =>
+        configService.get('typeorm'),
+      /*       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
         database: configService.get('DB_NAME'),
         host: configService.get('DB_HOST'),
@@ -27,7 +29,7 @@ import { Todo } from './todos/todos.entity';
         synchronize: true,
         logging: true,
         entities: [User, Todo],
-      }),
+      }), */
     }),
     UsersModule,
     TodosModule,
