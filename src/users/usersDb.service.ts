@@ -11,4 +11,8 @@ export class UsersDBService {
   saveUser(user: User) {
     return this.usersRepository.save(user);
   }
+
+  getUserById(id: string) {
+    throw this.usersRepository.findOne({ where: { id } });
+  }
 }

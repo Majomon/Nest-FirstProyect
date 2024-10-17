@@ -6,6 +6,7 @@ import {
   Headers,
   HttpCode,
   Param,
+  ParseUUIDPipe,
   Post,
   Put,
   Query,
@@ -25,7 +26,7 @@ import { UsersDBService } from './usersDb.service';
 // Este users seria la ruta /users
 @Controller('users')
 // Al colocar el GUARD aca arriba este se aplica a todos los endpoints de este controlador
-@UseGuards(AuthGuard)
+// @UseGuards(AuthGuard)
 export class UsersController {
   constructor(
     private readonly usersService: UsersService,
@@ -76,8 +77,8 @@ export class UsersController {
   }
   // Usuario por ID
   @Get(':id')
-  getUserById(@Param('id') id: string) {
-    return this.usersService.getUserById(Number(id));
+  getUserById(@Param('id', ParseUUIDPipe) id: string) {
+    return this.usersDBService.getUserById(id);
   }
 
   // Crear usuario
