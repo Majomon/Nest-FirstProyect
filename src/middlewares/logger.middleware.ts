@@ -6,7 +6,7 @@ import { NextFunction, Request, Response } from 'express';
 export class LoggerMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: NextFunction) {
     console.log(
-      `Estás ejecutando un método ${req.method} en la ruta ${req.url}`,
+      `Estás ejecutando un método ${req.method} en la ruta ${req.url} - Este no es global`,
     );
     next();
   }
@@ -14,6 +14,6 @@ export class LoggerMiddleware implements NestMiddleware {
 
 // Global
 export function loggerGlobal(req: Request, res: Response, next: NextFunction) {
-  console.log(`Estás ejecutando un método ${req.method} en la ruta ${req.url}`);
+  console.log('Logger Global');
   next();
 }
