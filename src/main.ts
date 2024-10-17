@@ -8,6 +8,7 @@ async function bootstrap() {
   // Para hacerlo global
   // Manera 1 - La manera 2 esta en el archivo app-module.ts
   // app.useGlobalGuards(new AuthGuard());
+  // app.useGlobalInterceptors(new MyInterceptor())
   app.use(loggerGlobal);
   await app.listen(process.env.PORT ?? 3000);
 }
