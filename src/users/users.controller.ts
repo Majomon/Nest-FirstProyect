@@ -11,13 +11,17 @@ import {
   Query,
   Req,
   Res,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { Request, Response } from 'express';
 import { User } from './user.interface';
+import { AuthGuard } from 'src/guards/auth.guard';
 
 // Este users seria la ruta /users
 @Controller('users')
+// Al colocar el GUARD aca arriba este se aplica a todos los endpoints de este controlador
+@UseGuards(AuthGuard)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -38,7 +42,9 @@ export class UsersController {
     return 'Este endpoint retorna el perfil  del usuario';
   }
 
+  // Empleando el Guards
   @Get('profile/images')
+  @UseGuards(AuthGuard)
   getUserImage() {
     return 'Este endpoint retorna las imágenes del usuario';
   }
