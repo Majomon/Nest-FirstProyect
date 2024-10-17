@@ -2,19 +2,29 @@ import { Module } from '@nestjs/common';
 import { UsersModule } from './users/users.module';
 import { TodosModule } from './todos/todos.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 // import { APP_INTERCEPTOR } from '@nestjs/core';
 // import { APP_GUARD } from '@nestjs/core';
 // import { AuthGuard } from './guards/auth.guard';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      database: 'demo-typeorm',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'admin',
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: './.env.development',
+    }),
+    TypeOrmModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        type: 'postgres',
+        database: configService.get('DB_NAME'),
+        host: configService.get('DB_HOST'),
+        port: configService.get('DB_PORT'),
+        username: configService.get('DB_USERNAME'),
+        password: configService.get('DB_PASSWORD'),
+        synchronize: true,
+        logging: true,
+      }),
     }),
     UsersModule,
     TodosModule,
