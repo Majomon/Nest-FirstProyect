@@ -17,15 +17,20 @@ import {
 import { UsersService } from './users.service';
 import { Request, Response } from 'express';
 import { User } from './user.interface';
+import { User as UserEntity } from './users.entity';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { DateAdderInterceptor } from 'src/interceptors/date-adder.interceptor';
+import { UsersDBService } from './usersDb.service';
 
 // Este users seria la ruta /users
 @Controller('users')
 // Al colocar el GUARD aca arriba este se aplica a todos los endpoints de este controlador
 @UseGuards(AuthGuard)
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly usersDBService: UsersDBService,
+  ) {}
 
   @Get()
   getUsers(@Query('name') name?: string) {
@@ -79,10 +84,13 @@ export class UsersController {
   // Utilizando un interceptor
   @Post()
   @UseInterceptors(DateAdderInterceptor)
-  createUser(@Body() user: User, @Req() request: Request & { now: string }) {
+  createUser(
+    @Body() user: UserEntity,
+    @Req() request: Request & { now: string },
+  ) {
     console.log('Dentro del endpoint: ', request.now);
 
-    return this.usersService.createUser(user);
+    return this.usersDBService.saveUser({ ...user, createdAt: request.now });
   }
 
   @Put()

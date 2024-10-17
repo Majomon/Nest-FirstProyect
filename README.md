@@ -84,3 +84,9 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+
+## Pasos de migración
+1. npm run migration:generate src/migrations/*nombre*
+2. npm run build
+3. npm run migration:run
+
