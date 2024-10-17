@@ -14,7 +14,16 @@ export class UsersRepository {
       email: 'algo2@algo.com',
     },
   ];
+
   async getTodo() {
     return this.users;
+  }
+
+  async getById(id: number) {
+    return this.users.find((user) => user.id === id);
+  }
+
+  async getByName(name: string) {
+    return this.users.find((user) => user.name === name);
   }
 }

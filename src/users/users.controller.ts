@@ -3,8 +3,10 @@ import {
   Delete,
   Get,
   HttpCode,
+  Param,
   Post,
   Put,
+  Query,
   Req,
   Res,
 } from '@nestjs/common';
@@ -17,8 +19,16 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
-  getUsers() {
+  getUsers(@Query('name') name?: string) {
+    if (name) {
+      return this.usersService.getUsersByName(name);
+    }
     return this.usersService.getUsers();
+  }
+
+  @Get(':id')
+  getUserById(@Param('id') id: string) {
+    return this.usersService.getUserById(Number(id));
   }
 
   @Get('profile')
