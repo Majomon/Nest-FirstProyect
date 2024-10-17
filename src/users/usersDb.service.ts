@@ -8,7 +8,7 @@ export class UsersDBService {
   constructor(
     @InjectRepository(User) private usersRepository: Repository<User>,
   ) {}
-  saveUser(user: User) {
+  saveUser(user: Omit<User, 'id'>) {
     return this.usersRepository.save(user);
   }
 

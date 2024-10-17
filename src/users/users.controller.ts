@@ -15,12 +15,11 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { UsersService } from './users.service';
 import { Request, Response } from 'express';
-import { User } from './user.interface';
-import { User as UserEntity } from './users.entity';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { DateAdderInterceptor } from 'src/interceptors/date-adder.interceptor';
+import { CreateUserDto } from './dtos/CreateUser.dto';
+import { UsersService } from './users.service';
 import { UsersDBService } from './usersDb.service';
 
 // Este users seria la ruta /users
@@ -86,7 +85,7 @@ export class UsersController {
   @Post()
   @UseInterceptors(DateAdderInterceptor)
   createUser(
-    @Body() user: UserEntity,
+    @Body() user: CreateUserDto,
     @Req() request: Request & { now: string },
   ) {
     console.log('Dentro del endpoint: ', request.now);
