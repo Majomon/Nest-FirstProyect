@@ -12,4 +12,6 @@ export class TodosService {
       ? this.todosRepository.getTodo()
       : 'No tiene acceso a esta información';
   }
+
+  get
 }

@@ -10,7 +10,12 @@ async function bootstrap() {
   // Manera 1 - La manera 2 esta en el archivo app-module.ts
   // app.useGlobalGuards(new AuthGuard());
   // app.useGlobalInterceptors(new MyInterceptor())
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(
+    new ValidationPipe({
+      // Se va a manejar unicamente los datos que espero tener por ejemplo si paso age en el post de users ahora va a ignorar tal dato
+      whitelist: true,
+    }),
+  );
   app.use(loggerGlobal);
   await app.listen(process.env.PORT ?? 3000);
 }
