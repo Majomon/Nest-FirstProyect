@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { loggerGlobal } from './middlewares/logger.middleware';
 import { AuthGuard } from './guards/auth.guard';
-import { ValidationPipe } from '@nestjs/common';
+import { BadRequestException, ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -14,6 +14,17 @@ async function bootstrap() {
     new ValidationPipe({
       // Se va a manejar unicamente los datos que espero tener por ejemplo si paso age en el post de users ahora va a ignorar tal dato
       whitelist: true,
+      exceptionFactory: (errors) => {
+        const cleanError = errors.map((error) => {
+          return { property: error.property, constraints: error.constraints };
+        });
+
+        return new BadRequestException({
+          alert:
+            'Se han detectado los siguientes errores en la petición, y te mandamos este msj personalizado',
+          errors: cleanError,
+        });
+      },
     }),
   );
   app.use(loggerGlobal);

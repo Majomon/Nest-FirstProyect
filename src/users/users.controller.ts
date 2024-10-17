@@ -4,7 +4,9 @@ import {
   Delete,
   Get,
   Headers,
-  HttpCode,
+  HttpException,
+  HttpStatus,
+  NotFoundException,
   Param,
   ParseUUIDPipe,
   Post,
@@ -35,9 +37,9 @@ export class UsersController {
   @Get()
   getUsers(@Query('name') name?: string) {
     if (name) {
-      return this.usersService.getUsersByName(name);
+      return this.usersDBService.getUsersByName(name);
     }
-    return this.usersService.getUsers();
+    return this.usersDBService.getUsers();
   }
 
   // Headers/Cabecera
@@ -56,10 +58,20 @@ export class UsersController {
     return 'Este endpoint retorna las imágenes del usuario';
   }
 
-  @HttpCode(418)
+  // @HttpCode(418)
   @Get('coffee')
   getCoffee() {
-    return 'No se hacer café, soy una tetera';
+    try {
+      throw new Error();
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.I_AM_A_TEAPOT,
+          error: 'Envio de cafe fallido',
+        },
+        HttpStatus.I_AM_A_TEAPOT,
+      );
+    }
   }
 
   // Acceder al objecto response
@@ -76,8 +88,13 @@ export class UsersController {
   }
   // Usuario por ID
   @Get(':id')
-  getUserById(@Param('id', ParseUUIDPipe) id: string) {
-    return this.usersDBService.getUserById(id);
+  async getUserById(@Param('id', ParseUUIDPipe) id: string) {
+    const user = await this.usersDBService.getUserById(id);
+
+    if (!user) {
+      throw new NotFoundException('Usuario no encontrado');
+    }
+    return user;
   }
 
   // Crear usuario

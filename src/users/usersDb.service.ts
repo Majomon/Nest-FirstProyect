@@ -13,6 +13,14 @@ export class UsersDBService {
   }
 
   getUserById(id: string) {
-    throw this.usersRepository.findOne({ where: { id } });
+    return this.usersRepository.findOne({ where: { id } });
+  }
+
+  getUsersByName(name: string) {
+    return this.usersRepository.findOne({ where: { name } });
+  }
+
+  getUsers() {
+    return this.usersRepository.find();
   }
 }
