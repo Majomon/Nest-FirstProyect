@@ -1,11 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { UsersRepository } from './users.repository';
+import { User } from './user.interface';
 
 @Injectable()
 export class UsersService {
   constructor(
     private usersRepository: UsersRepository,
-    @Inject('API_USERS') private apiUsers: any,
+    @Inject('API_USERS') private apiUsers: User[],
   ) {}
 
   async getUsers() {
@@ -20,5 +21,9 @@ export class UsersService {
 
   getUsersByName(name: string) {
     return this.usersRepository.getByName(name);
+  }
+
+  createUser(user: Omit<User, 'id'>): Promise<User> {
+    return this.usersRepository.createUser(user);
   }
 }

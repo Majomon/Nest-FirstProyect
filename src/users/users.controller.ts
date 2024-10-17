@@ -1,7 +1,9 @@
 import {
+  Body,
   Controller,
   Delete,
   Get,
+  Headers,
   HttpCode,
   Param,
   Post,
@@ -12,6 +14,7 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { Request, Response } from 'express';
+import { User } from './user.interface';
 
 // Este users seria la ruta /users
 @Controller('users')
@@ -26,13 +29,12 @@ export class UsersController {
     return this.usersService.getUsers();
   }
 
-  @Get(':id')
-  getUserById(@Param('id') id: string) {
-    return this.usersService.getUserById(Number(id));
-  }
-
+  // Headers/Cabecera
   @Get('profile')
-  getUserProfile() {
+  getUserProfile(@Headers('token') token?: string) {
+    if (token !== '1234') {
+      return 'Sin acceso';
+    }
     return 'Este endpoint retorna el perfil  del usuario';
   }
 
@@ -59,10 +61,16 @@ export class UsersController {
     console.log(request);
     return 'Esta ruta loguea el request';
   }
+  // Usuario por ID
+  @Get(':id')
+  getUserById(@Param('id') id: string) {
+    return this.usersService.getUserById(Number(id));
+  }
 
+  // Crear usuario
   @Post()
-  createUser() {
-    return 'Este endpoint crea un usuario';
+  createUser(@Body() user: User) {
+    return this.usersService.createUser(user);
   }
 
   @Put()
