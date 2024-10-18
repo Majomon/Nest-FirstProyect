@@ -14,6 +14,9 @@ const config = {
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   autoLoadEntities: true,
+  // Para desarrollo
+  // synchronize: true,
+  // Para produccion se debe hacer la migración manual
   synchronize: false,
   logging: true,
   entities: ['dist/**/*.entity{.ts,.js}'],

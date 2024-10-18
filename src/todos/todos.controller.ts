@@ -25,11 +25,16 @@ export class TodosController {
     return this.todosService.getTodos();
   }
 
+  @Post()
+  createTodo(@Body() todo: any) {
+    return this.todosService.create(todo);
+  }
+
   @Get(':id')
   @UsePipes(new ValidationPipe({ transform: true }))
   //El id llega como string y si por algun motivo lo necesito como number con el validationPipe lo transformo
   getTodoById(@Param('id') id: number) {
-    return this.todosService.getTodos();
+    return this.todosService.findById(id);
   }
 
   @Post('upload')
