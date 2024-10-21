@@ -14,6 +14,7 @@ import {
   Query,
   Req,
   Res,
+  UploadedFile,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
@@ -23,6 +24,8 @@ import { DateAdderInterceptor } from 'src/interceptors/date-adder.interceptor';
 import { CreateUserDto } from './dtos/CreateUser.dto';
 import { UsersService } from './users.service';
 import { UsersDBService } from './usersDb.service';
+import { CloudinaryService } from './cloudinary.service';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 // Este users seria la ruta /users
 @Controller('users')
@@ -32,6 +35,7 @@ export class UsersController {
   constructor(
     private readonly usersService: UsersService,
     private readonly usersDBService: UsersDBService,
+    private readonly cloudinaryService: CloudinaryService,
   ) {}
 
   @Get()
@@ -52,10 +56,11 @@ export class UsersController {
   }
 
   // Empleando el Guards
-  @Get('profile/images')
-  @UseGuards(AuthGuard)
-  getUserImage() {
-    return 'Este endpoint retorna las imágenes del usuario';
+  @Post('profile/images')
+  @UseInterceptors(FileInterceptor('image'))
+  // @UseGuards(AuthGuard)
+  getUserImage(@UploadedFile() file: Express.Multer.File) {
+    return this.cloudinaryService.uploadImage(file);
   }
 
   // @HttpCode(418)
