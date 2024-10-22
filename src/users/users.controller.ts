@@ -32,6 +32,9 @@ import { CreateUserDto } from './dtos/CreateUser.dto';
 import { UserCredentialsDto } from './dtos/UserCredentials.dto';
 import { UsersService } from './users.service';
 import { UsersDBService } from './usersDb.service';
+import { Roles } from 'src/decorators/roles.decorator';
+import { Role } from 'src/roles.enum';
+import { RolesGuard } from 'src/guards/roles.guard';
 
 // Este users seria la ruta /users
 @Controller('users')
@@ -124,6 +127,15 @@ export class UsersController {
     console.log(request);
     return 'Esta ruta loguea el request';
   }
+
+  // Ruta por roles
+  @Get('admin')
+  @Roles(Role.Admin)
+  @UseGuards(AuthGuard, RolesGuard)
+  getadmin() {
+    return 'Ruta protegida';
+  }
+
   // Usuario por ID
   @Get(':id')
   async getUserById(@Param('id', ParseUUIDPipe) id: string) {
@@ -145,7 +157,10 @@ export class UsersController {
   ) {
     console.log('Dentro del endpoint: ', request.now);
 
-    return this.authService.singUp({ ...user, createdAt: request.now });
+    return this.authService.singUp({
+      ...user,
+      createdAt: request.now,
+    });
   }
 
   @Post('singin')
