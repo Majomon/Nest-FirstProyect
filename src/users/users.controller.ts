@@ -4,7 +4,6 @@ import {
   Delete,
   FileTypeValidator,
   Get,
-  Headers,
   HttpException,
   HttpStatus,
   MaxFileSizeValidator,
@@ -22,17 +21,17 @@ import {
   UseInterceptors,
   UsePipes,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { Request, Response } from 'express';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { DateAdderInterceptor } from 'src/interceptors/date-adder.interceptor';
-import { CreateUserDto } from './dtos/CreateUser.dto';
-import { UsersService } from './users.service';
-import { UsersDBService } from './usersDb.service';
-import { CloudinaryService } from './cloudinary.service';
-import { FileInterceptor } from '@nestjs/platform-express';
 import { MinSizeValidatorPipe } from 'src/pipes/min-size-validator.pipe';
 import { AuthService } from './auth.service';
+import { CloudinaryService } from './cloudinary.service';
+import { CreateUserDto } from './dtos/CreateUser.dto';
 import { UserCredentialsDto } from './dtos/UserCredentials.dto';
+import { UsersService } from './users.service';
+import { UsersDBService } from './usersDb.service';
 
 // Este users seria la ruta /users
 @Controller('users')
@@ -56,10 +55,18 @@ export class UsersController {
 
   // Headers/Cabecera
   @Get('profile')
-  getUserProfile(@Headers('token') token?: string) {
-    if (token !== '1234') {
+  @UseGuards(AuthGuard)
+  getUserProfile(
+    /* @Headers('token') token?: string */ @Req()
+    request: Express.Request & {
+      user: any;
+    },
+  ) {
+    /*     if (token !== '1234') {
       return 'Sin acceso';
-    }
+    } */
+    console.log(request.user);
+
     return 'Este endpoint retorna el perfil  del usuario';
   }
 

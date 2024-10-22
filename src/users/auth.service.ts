@@ -2,10 +2,15 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { User } from './users.entity';
 import { UsersDBService } from './usersDb.service';
 import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly usersService: UsersDBService) {}
+  constructor(
+    private readonly usersService: UsersDBService,
+    private readonly jwtService: JwtService,
+  ) {}
+
   async singUp(user: Omit<User, 'id'>) {
     const dbUser = await this.usersService.getUserByEmail(user.email);
     if (dbUser) {
@@ -35,6 +40,14 @@ export class AuthService {
       throw new BadRequestException('Password invalido');
     }
 
-    return { success: 'User logeado con exito' };
+    const userPayload = {
+      sub: dbUser.id,
+      id: dbUser.id,
+      email: dbUser.email,
+    };
+
+    const token = this.jwtService.sign(userPayload);
+
+    return { success: 'User logeado con exito', token };
   }
 }

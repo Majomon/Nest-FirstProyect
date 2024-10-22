@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import typeorm from './config/typeorm';
 import { TodosModule } from './todos/todos.module';
 import { UsersModule } from './users/users.module';
+import { JwtModule } from '@nestjs/jwt';
 // import { APP_INTERCEPTOR } from '@nestjs/core';
 // import { APP_GUARD } from '@nestjs/core';
 // import { AuthGuard } from './guards/auth.guard';
@@ -33,6 +34,13 @@ import { UsersModule } from './users/users.module';
     }),
     UsersModule,
     TodosModule,
+    JwtModule.register({
+      global: true,
+      signOptions: {
+        expiresIn: '1h',
+      },
+      secret:process.env.JWT_SECRET
+    }),
   ],
   controllers: [],
   // Manera 2 para hacer el Guard de forma global
