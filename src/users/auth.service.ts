@@ -3,7 +3,7 @@ import { User } from './users.entity';
 import { UsersDBService } from './usersDb.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-import { Role } from 'src/roles.enum';
+import { Role } from '../roles.enum';
 
 @Injectable()
 export class AuthService {
@@ -23,9 +23,7 @@ export class AuthService {
       throw new BadRequestException('El password no se pudo hashear');
     }
 
-    this.usersService.saveUser({ ...user, password: hashedPassword });
-
-    return { success: 'Usuario creado' };
+    return this.usersService.saveUser({ ...user, password: hashedPassword });
   }
 
   async singIn(email: string, password: string) {
