@@ -138,7 +138,7 @@ export class UsersController {
 
   @Get('auth0/protected')
   getAuth0Protected(@Req() req: Request) {
-    console.log(req.oidc);
+    console.log(req.oidc );
 
     return JSON.stringify(req.oidc.user);
   }
