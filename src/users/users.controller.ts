@@ -31,6 +31,7 @@ import { UsersDBService } from './usersDb.service';
 import { CloudinaryService } from './cloudinary.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { MinSizeValidatorPipe } from 'src/pipes/min-size-validator.pipe';
+import { AuthService } from './auth.service';
 
 // Este users seria la ruta /users
 @Controller('users')
@@ -41,6 +42,7 @@ export class UsersController {
     private readonly usersService: UsersService,
     private readonly usersDBService: UsersDBService,
     private readonly cloudinaryService: CloudinaryService,
+    private readonly authService: AuthService,
   ) {}
 
   @Get()
@@ -127,7 +129,7 @@ export class UsersController {
 
   // Crear usuario
   // Utilizando un interceptor
-  @Post()
+  @Post('singup')
   @UseInterceptors(DateAdderInterceptor)
   createUser(
     @Body() user: CreateUserDto,
@@ -135,7 +137,7 @@ export class UsersController {
   ) {
     console.log('Dentro del endpoint: ', request.now);
 
-    return this.usersDBService.saveUser({ ...user, createdAt: request.now });
+    return this.authService.singUp({ ...user, createdAt: request.now });
   }
 
   @Put()
