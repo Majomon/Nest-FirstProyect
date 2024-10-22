@@ -9,6 +9,7 @@ import { User } from './users.entity';
 import { UsersRepository } from './users.repository';
 import { UsersService } from './users.service';
 import { UsersDBService } from './usersDb.service';
+import { requiresAuth } from 'express-openid-connect';
 
 /* const mockUserService = {
   getUsers: () => 'Esto es un servicio MOCK de usuarios',
@@ -47,5 +48,6 @@ export class UsersModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     // Para aplicarlo especificamente a una ruta
     consumer.apply(LoggerMiddleware).forRoutes('users');
+    consumer.apply(requiresAuth()).forRoutes("users/auth0/protected")
   }
 }

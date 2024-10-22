@@ -3,6 +3,8 @@ import { AppModule } from './app.module';
 import { loggerGlobal } from './middlewares/logger.middleware';
 import { AuthGuard } from './guards/auth.guard';
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
+import { auth } from 'express-openid-connect';
+import { config as auth0Config } from './config/auth0.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -10,6 +12,7 @@ async function bootstrap() {
   // Manera 1 - La manera 2 esta en el archivo app-module.ts
   // app.useGlobalGuards(new AuthGuard());
   // app.useGlobalInterceptors(new MyInterceptor())
+  app.use(auth(auth0Config));
   app.useGlobalPipes(
     new ValidationPipe({
       // Se va a manejar unicamente los datos que espero tener por ejemplo si paso age en el post de users ahora va a ignorar tal dato

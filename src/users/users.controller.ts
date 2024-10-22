@@ -136,6 +136,13 @@ export class UsersController {
     return 'Ruta protegida';
   }
 
+  @Get('auth0/protected')
+  getAuth0Protected(@Req() req: Request) {
+    console.log(req.oidc);
+
+    return JSON.stringify(req.oidc.user);
+  }
+
   // Usuario por ID
   @Get(':id')
   async getUserById(@Param('id', ParseUUIDPipe) id: string) {
