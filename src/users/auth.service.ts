@@ -22,5 +22,19 @@ export class AuthService {
     return { success: 'Usuario creado' };
   }
 
-  async singIn() {}
+  async singIn(email: string, password: string) {
+    const dbUser = await this.usersService.getUserByEmail(email);
+
+    if (!dbUser) {
+      throw new BadRequestException('Usuario no encontrado');
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, dbUser.password);
+
+    if (!isPasswordValid) {
+      throw new BadRequestException('Password invalido');
+    }
+
+    return { success: 'User logeado con exito' };
+  }
 }

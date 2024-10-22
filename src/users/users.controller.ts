@@ -32,6 +32,7 @@ import { CloudinaryService } from './cloudinary.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { MinSizeValidatorPipe } from 'src/pipes/min-size-validator.pipe';
 import { AuthService } from './auth.service';
+import { UserCredentialsDto } from './dtos/UserCredentials.dto';
 
 // Este users seria la ruta /users
 @Controller('users')
@@ -138,6 +139,11 @@ export class UsersController {
     console.log('Dentro del endpoint: ', request.now);
 
     return this.authService.singUp({ ...user, createdAt: request.now });
+  }
+
+  @Post('singin')
+  async singin(@Body() user: UserCredentialsDto) {
+    return this.authService.singIn(user.email, user.password);
   }
 
   @Put()
