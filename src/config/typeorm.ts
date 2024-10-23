@@ -17,7 +17,7 @@ const config = {
   // Para desarrollo
   // synchronize: true,
   // Para produccion se debe hacer la migración manual
-  synchronize: true,
+  synchronize: false,
   logging: true,
   entities: ['dist/**/*.entity{.ts,.js}'],
   migrations:["dist/migrations/*{.ts,.js}"]
