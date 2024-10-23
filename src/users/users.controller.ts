@@ -25,7 +25,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { Request, Response } from 'express';
 import { AuthGuard } from '../guards/auth.guard';
 import { DateAdderInterceptor } from '../interceptors/date-adder.interceptor';
-import { MinSizeValidatorPipe } from '../pipes/min-size-validator.pipe';
+import { MinSizeValidatorPipe } from '../pipes/minSizeValidator.pipe';
 import { AuthService } from './auth.service';
 import { CloudinaryService } from './cloudinary.service';
 import { CreateUserDto } from './dtos/CreateUser.dto';
