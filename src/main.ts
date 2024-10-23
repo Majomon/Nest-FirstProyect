@@ -40,6 +40,7 @@ async function bootstrap() {
       'Esta es una API contruida  con Nest para ser empleada en un proyecto de prueba',
     )
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, swaggerConfig);

@@ -35,7 +35,7 @@ import { UsersDBService } from './usersDb.service';
 import { Roles } from 'src/decorators/roles.decorator';
 import { Role } from 'src/roles.enum';
 import { RolesGuard } from 'src/guards/roles.guard';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 // Este users seria la ruta /users
 @ApiTags('Users')
@@ -59,6 +59,7 @@ export class UsersController {
   }
 
   // Headers/Cabecera
+  @ApiBearerAuth()
   @Get('profile')
   @UseGuards(AuthGuard)
   getUserProfile(
@@ -72,14 +73,15 @@ export class UsersController {
     } */
     console.log(request.user);
 
-    return 'Este endpoint retorna el perfil  del usuario';
+    return 'Este endpoint retorna el perfil del usuario';
   }
 
   // Empleando el Guards
+  @ApiBearerAuth()
   @Post('profile/images')
   @UseInterceptors(FileInterceptor('image'))
   @UsePipes(MinSizeValidatorPipe)
-  // @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard)
   getUserImage(
     @UploadedFile(
       // Validadores
