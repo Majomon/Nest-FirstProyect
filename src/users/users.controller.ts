@@ -23,18 +23,18 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Request, Response } from 'express';
-import { AuthGuard } from 'src/guards/auth.guard';
-import { DateAdderInterceptor } from 'src/interceptors/date-adder.interceptor';
-import { MinSizeValidatorPipe } from 'src/pipes/min-size-validator.pipe';
+import { AuthGuard } from '../guards/auth.guard';
+import { DateAdderInterceptor } from '../interceptors/date-adder.interceptor';
+import { MinSizeValidatorPipe } from '../pipes/min-size-validator.pipe';
 import { AuthService } from './auth.service';
 import { CloudinaryService } from './cloudinary.service';
 import { CreateUserDto } from './dtos/CreateUser.dto';
 import { UserCredentialsDto } from './dtos/UserCredentials.dto';
 import { UsersService } from './users.service';
 import { UsersDBService } from './usersDb.service';
-import { Roles } from 'src/decorators/roles.decorator';
-import { Role } from 'src/roles.enum';
-import { RolesGuard } from 'src/guards/roles.guard';
+import { Roles } from '../decorators/roles.decorator';
+import { Role } from '../roles.enum';
+import { RolesGuard } from '../guards/roles.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 // Este users seria la ruta /users

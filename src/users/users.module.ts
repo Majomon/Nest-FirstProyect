@@ -1,7 +1,7 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { CloudinaryConfig } from 'src/config/cloudinary';
-import { LoggerMiddleware } from 'src/middlewares/logger.middleware';
+import { CloudinaryConfig } from '../config/cloudinary';
+import { LoggerMiddleware } from '../middlewares/logger.middleware';
 import { AuthService } from './auth.service';
 import { CloudinaryService } from './cloudinary.service';
 import { UsersController } from './users.controller';
