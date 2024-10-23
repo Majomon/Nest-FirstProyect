@@ -24,14 +24,18 @@ export class CreateUserDto {
     example: 'example@gmail.com',
   })
   email: string;
-
+  
+  /**
+   * La contraseña debe ser una contraseña dificil de encontrar
+   * @example Strong!(Password
+   */
   @IsNotEmpty()
   @IsString()
   @MinLength(5)
-  @ApiProperty({
-    description: 'La contraseña debe ser una contraseña dificil de encontrar',
-    example: 'Strong!(Password',
-  })
+  // @ApiProperty({
+  //   description: 'La contraseña debe ser una contraseña dificil de encontrar',
+  //   example: 'Strong!(Password',
+  // })
   password: string;
 
   @IsEmpty()
