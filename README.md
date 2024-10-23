@@ -55,7 +55,6 @@ Antes de comenzar, elimina las siguientes carpetas si existen:
    ```bash
    docker stop nombre-imagen
    ```
-
 ---
 
 ¡Y eso es todo! Ahora deberías tener tu proyecto corriendo con Docker.
