@@ -35,8 +35,10 @@ import { UsersDBService } from './usersDb.service';
 import { Roles } from 'src/decorators/roles.decorator';
 import { Role } from 'src/roles.enum';
 import { RolesGuard } from 'src/guards/roles.guard';
+import { ApiTags } from '@nestjs/swagger';
 
 // Este users seria la ruta /users
+@ApiTags('Users')
 @Controller('users')
 // Al colocar el GUARD aca arriba este se aplica a todos los endpoints de este controlador
 // @UseGuards(AuthGuard)
@@ -138,7 +140,7 @@ export class UsersController {
 
   @Get('auth0/protected')
   getAuth0Protected(@Req() req: Request) {
-    console.log(req.oidc );
+    console.log(req.oidc);
 
     return JSON.stringify(req.oidc.user);
   }
