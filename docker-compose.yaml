@@ -9,11 +9,12 @@ services:
       - .env.development
     depends_on:
       - postgresdb
-    
+
   postgresdb:
     image: postgres
     volumes:
       - pgdata:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql  # Añade esta línea
     env_file:
       - .env.development
 
