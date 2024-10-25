@@ -1,11 +1,10 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { loggerGlobal } from './middlewares/logger.middleware';
-import { AuthGuard } from './guards/auth.guard';
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
-import { auth } from 'express-openid-connect';
-import { config as auth0Config } from './config/auth0.config';
+import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { auth } from 'express-openid-connect';
+import { AppModule } from './app.module';
+import { config as auth0Config } from './config/auth0.config';
+import { loggerGlobal } from './middlewares/logger.middleware';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -31,6 +30,8 @@ async function bootstrap() {
       },
     }),
   );
+  
+  //Middleware
   app.use(loggerGlobal);
 
   // Document builder
@@ -46,7 +47,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, swaggerConfig);
 
   SwaggerModule.setup('api', app, document);
-  
+
   await app.listen(process.env.PORT ?? 3000);
 }
 

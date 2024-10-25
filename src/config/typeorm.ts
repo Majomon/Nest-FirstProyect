@@ -20,7 +20,10 @@ const config = {
   synchronize: false,
   logging: true,
   entities: ['dist/**/*.entity{.ts,.js}'],
-  migrations:["dist/migrations/*{.ts,.js}"]
+  migrations:["dist/migrations/*{.ts,.js}"],
+  ssl: {
+    rejectUnauthorized: false, // Necesario si no tienes un certificado SSL propio
+  },
 };
 export default registerAs('typeorm', () => config);
 
