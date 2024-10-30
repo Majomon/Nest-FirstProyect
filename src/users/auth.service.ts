@@ -23,7 +23,11 @@ export class AuthService {
       throw new BadRequestException('El password no se pudo hashear');
     }
 
-    return this.usersService.saveUser({ ...user, password: hashedPassword });
+    const up = await this.usersService.saveUser({
+      ...user,
+      password: hashedPassword,
+    });
+    console.log(up);
   }
 
   async singIn(email: string, password: string) {
@@ -49,6 +53,6 @@ export class AuthService {
 
     const token = this.jwtService.sign(userPayload);
 
-    return { success: 'User logeado con exito', token };
+    return { success: 'User logeado con exito', token, userPayload };
   }
 }

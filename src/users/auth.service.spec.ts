@@ -12,7 +12,7 @@ describe('authservice', () => {
     createdAt: '01-01-2024',
     password: '123456',
     email: 'mauricio@gmail.com',
-    isAdmin: false,
+    isAdmin: true,
   };
 
   beforeEach(async () => {
@@ -21,7 +21,7 @@ describe('authservice', () => {
       saveUser: (user: Omit<User, 'id'>): Promise<User> =>
         Promise.resolve({
           ...user,
-          isAdmin: false,
+          isAdmin: true,
           id: '1234fs-234sd-24csfd-34sdfg     ',
         }),
     };

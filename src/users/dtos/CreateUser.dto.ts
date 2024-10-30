@@ -42,7 +42,7 @@ export class CreateUserDto {
   @ApiProperty({
     description:
       'Asignada por default al momento de crear el usuario, no debe ser incluida en el body',
-    example: false,
+    example: true,
   })
   isAdmin: boolean;
 }
